@@ -127,4 +127,39 @@ def general_search(initial_state, heuristic_type):
     nodes_expanded = 0
     max_queue_size = 0
 
+# loop do: same format as general search algorithm pseudocode from Project 1 description
+    while True:
+        if not nodes:
+            return "failure"
+
+        max_queue_size = max(max_queue_size, len(nodes))
+
+        # REMOVE-FRONT
+        node = heapq.heappop(nodes)
+
+        if node.state_to_tuple() in explored:
+            continue
+
+        explored.add(node.state_to_tuple())
+
+        print(f"The best state to expand with g(n) = {node.g} and h(n) = {node.h} is…")
+        for row in node.state:
+            print(row)
+        print()
+
+        # GOAL-TEST
+        if node.state == eight_goal_state:
+            print("Goal state!")
+            print("Solution depth was", node.g)
+            print("Number of nodes expanded:", nodes_expanded)
+            print("Max queue size:", max_queue_size)
+            return node
+
+        nodes_expanded += 1
+
+        # EXPAND and QUEUEING-FUNCTION
+        children = expand(node, heuristic_type)
+        nodes = queueing_function(nodes, children)
+
+
 
