@@ -62,3 +62,24 @@ def find_blank(board):
             if board[i][j] == 0:
                 return i, j
 
+def misplaced_tile_heuristic(board):
+    count = 0
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] != 0 and board[i][j] != eight_goal_state[i][j]:
+                count += 1
+    return count
+
+
+def manhattan_distance_heuristic(board):
+    distance = 0
+    for i in range(3):
+        for j in range(3):
+            value = board[i][j]
+            if value != 0:
+                goal_i = (value - 1) // 3
+                goal_j = (value - 1) % 3
+                distance += abs(i - goal_i) + abs(j - goal_j)
+    return distance
+
+
