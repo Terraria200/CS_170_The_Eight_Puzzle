@@ -108,5 +108,23 @@ def queueing_function(frontier, children):
     return frontier
 
 # General search algorithm
+def general_search(initial_state, heuristic_type):
+    # MAKE-NODE(problem.INITIAL-STATE)
+    if heuristic_type == 0:
+        h = 0
+    elif heuristic_type == 1:
+        h = misplaced_tile(initial_state)
+    else:
+        h = manhattan_distance(initial_state)
+
+    start_node = Node(None, initial_state, 0, h)
+
+    # MAKE-QUEUE
+    nodes = []
+    heapq.heappush(nodes, start_node)
+
+    explored = set()
+    nodes_expanded = 0
+    max_queue_size = 0
 
 
