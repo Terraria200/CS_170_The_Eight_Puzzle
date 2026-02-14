@@ -161,5 +161,26 @@ def general_search(initial_state, heuristic_type):
         children = expand(node, heuristic_type)
         nodes = queueing_function(nodes, children)
 
+# -----------------------------
+# Driver
+# -----------------------------
 
+def main():
+    puzzle = [[1, 2, 3],
+              [4, 0, 6],
+              [7, 5, 8]]
+
+    print("Select algorithm: 1 = Uniform Cost, 2 = Misplaced Tile, 3 = Manhattan Distance")
+    choice = input()
+
+    if choice == "1":
+        general_search(puzzle, 0)
+    elif choice == "2":
+        general_search(puzzle, 1)
+    else:
+        general_search(puzzle, 2)
+
+
+if __name__ == '__main__':
+    main()
 
