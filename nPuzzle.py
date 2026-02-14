@@ -30,10 +30,10 @@ eight_goal_state = [[1, 2, 3],
 
 
 
-class TreeNode:
-    def __init__(self, parent, board, g, h):
+class Node:
+    def __init__(self, parent, state, g, h):
         self.parent = parent
-        self.board = board
+        self.state = state
         self.g = g
         self.h = h
         self.f = g + h
@@ -41,45 +41,39 @@ class TreeNode:
     def __lt__(self, other):
         return self.f < other.f
 
-    def board_to_tuple(self):
-        return tuple(tuple(row) for row in self.board)
-
-    def solved(self):
-        return self.board == eight_goal_state
+    def state_to_tuple(self):
+        return tuple(tuple(row) for row in self.state)
 
 
 # Utility functions_
 
-def print_puzzle(puzzle):
-    for row in puzzle:
-        print(row)
-    print()
-
-
-def find_blank(board):
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == 0:
-                return i, j
-
-def misplaced_tile_heuristic(board):
+def misplaced_tile(state):
     count = 0
     for i in range(3):
         for j in range(3):
-            if board[i][j] != 0 and board[i][j] != eight_goal_state[i][j]:
+            if state[i][j] != 0 and state[i][j] != eight_goal_state[i][j]:
                 count += 1
     return count
 
 
-def manhattan_distance_heuristic(board):
-    distance = 0
+def manhattan_distance(state):
+    dist = 0
     for i in range(3):
         for j in range(3):
-            value = board[i][j]
+            value = state[i][j]
             if value != 0:
                 goal_i = (value - 1) // 3
                 goal_j = (value - 1) % 3
-                distance += abs(i - goal_i) + abs(j - goal_j)
-    return distance
+                dist += abs(i - goal_i) + abs(j - goal_j)
+    return dist
+
+
+def find_blank(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return i, j
+
+# General search algorithm
 
 
