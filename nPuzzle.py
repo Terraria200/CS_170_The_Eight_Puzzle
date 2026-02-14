@@ -98,6 +98,15 @@ def expand(node, heuristic_type): #function used to expand problem based on whic
 
     return children
 
+# -----------------------------
+# Queueing Function, which is used to edit the states on our current 8 puzzle board
+# -----------------------------
+
+def queueing_function(frontier, children):
+    for child in children:
+        heapq.heappush(frontier, child)
+    return frontier
+
 # General search algorithm
 
 
