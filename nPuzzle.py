@@ -74,6 +74,30 @@ def find_blank(state):
             if state[i][j] == 0:
                 return i, j
 
+
+def expand(node, heuristic_type): #function used to expand problem based on which heuristic we're using
+    children = []
+    i, j = find_blank(node.state)
+    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    for di, dj in moves:
+        ni, nj = i + di, j + dj
+        if 0 <= ni < 3 and 0 <= nj < 3:
+            new_state = copy.deepcopy(node.state)
+            new_state[i][j], new_state[ni][nj] = new_state[ni][nj], new_state[i][j]
+
+            if heuristic_type == 0:
+                h = 0
+            elif heuristic_type == 1:
+                h = misplaced_tile(new_state)
+            else:
+                h = manhattan_distance(new_state)
+
+            child = Node(node, new_state, node.g + 1, h)
+            children.append(child)
+
+    return children
+
 # General search algorithm
 
 
